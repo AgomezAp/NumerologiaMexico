@@ -264,7 +264,7 @@ export class ResultComponent implements OnInit {
     localStorage.setItem('paymentData', encryptedData);
 
     this.http
-    this.http.post<{ id: string, links: { rel: string, href: string }[] }>('http://localhost:4000/create-order', {})
+    this.http.post<{ id: string, links: { rel: string, href: string }[] }>('https://api.numerologiamexico.com/create-order', {})
       .subscribe((response) => {
         const approvalUrl = response.links.find(link => link.rel === "approve")?.href;
         if (approvalUrl) {
@@ -274,6 +274,17 @@ export class ResultComponent implements OnInit {
         }
       }, (error) => {
         console.error('Error creating order:', error);
+      });
+  }
+  
+  capturePayment(token: string): void {
+    this.http.get(`https://api.numerologiamexico/capture-order?token=${token}`)
+      .subscribe((response) => {
+        console.log('Payment captured successfully:', response);
+        this.router.navigate(['/payment-success']);
+      }, (error) => {
+        console.error('Error capturing payment:', error);
+        this.router.navigate(['/payment-failure']);
       });
   }
   onCardMouseOver(specificDescription: string): void {
