@@ -16,7 +16,7 @@ export const createOrder = async (req, res) => {
         {
           amount: {
             currency_code: "USD",
-            value: "20.00",
+            value: "5.00",
           },
         },
       ],
@@ -26,8 +26,8 @@ export const createOrder = async (req, res) => {
         shipping_preference: "NO_SHIPPING",
         user_action: "PAY_NOW",
         return_url: `${HOST}/capture-order`,
-        failure_url: `${HOST}/welcome`,
-        cancel_url: `${HOST}/descripcion-cartas`,
+        failure_url: `https://numerologiamexico.com/welcome`,
+        cancel_url: `https://numerologiamexico.com/descripcion-cartas`,
       },
     };
 
@@ -103,7 +103,7 @@ export const captureOrder = async (req, res) => {
            SECRET_KEY,
            { expiresIn: '1m' }
          );
-         return res.redirect(`http://numerologiamexico.com/result?status=COMPLETED&token=${rejectToken}`);
+         return res.redirect(`https://numerologiamexico.com/result?status=COMPLETED&token=${rejectToken}`);
        }
   } catch (error) {
     if (error.response) {
@@ -111,7 +111,7 @@ export const captureOrder = async (req, res) => {
       // Redirige o responde según el código de error
       if(error.response.status === 422){
         // Ejemplo: redirige a una URL de error definida
-        return res.redirect(`http://numerologiamexico.com/result?status=NOT_COMPLETED`);
+        return res.redirect(`https://numerologiamexico.com/result?status=NOT_COMPLETED`);
       }
       return res.status(error.response.status).json(error.response.data);
     } else {
